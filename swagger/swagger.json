@@ -1,0 +1,99 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "backend",
+    "description": "",
+    "license": {
+      "name": ""
+    },
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "crate::meta"
+        ],
+        "operationId": "home",
+        "responses": {
+          "200": {
+            "description": "Sample answer of Yarned-Chat backend",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/version": {
+      "get": {
+        "tags": [
+          "crate::meta"
+        ],
+        "operationId": "version",
+        "responses": {
+          "200": {
+            "description": "Return Yarned-Chat backend's version",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Version"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HomeResponse": {
+        "type": "object",
+        "required": [
+          "status",
+          "title",
+          "desc",
+          "custom"
+        ],
+        "properties": {
+          "custom": {
+            "type": "string"
+          },
+          "desc": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "Version": {
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "properties": {
+          "version": {
+            "type": "string",
+            "format": "semver",
+            "example": "1.2.3"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Yarned",
+      "description": "Yarned Backend API"
+    }
+  ]
+}
