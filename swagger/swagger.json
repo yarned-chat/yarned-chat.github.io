@@ -5,8 +5,7 @@
     "description": "",
     "license": {
       "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT",
-      "identifier": "MIT-0"
+      "url": "https://opensource.org/licenses/MIT"
     },
     "version": "0.1.0"
   },
@@ -31,7 +30,7 @@
         }
       }
     },
-    "/version": {
+    "/api/version": {
       "get": {
         "tags": [
           "crate::meta"
