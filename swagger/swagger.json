@@ -4,8 +4,7 @@
     "title": "backend",
     "description": "",
     "license": {
-      "name": "MIT",
-      "url": "https://opensource.org/licenses/MIT"
+      "name": ""
     },
     "version": "0.1.0"
   },
@@ -91,10 +90,5 @@
       }
     }
   },
-  "tags": [
-    {
-      "name": "Yarned",
-      "description": "Yarned Backend API"
-    }
-  ]
+  "tags": []
 }
