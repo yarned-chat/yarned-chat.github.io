@@ -30,6 +30,210 @@
         }
       }
     },
+    "/api/usr/create": {
+      "post": {
+        "tags": [
+          "crate::api::usr"
+        ],
+        "operationId": "create_user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "description",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "One of the input value was wrong (probably just a value way too big)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The username you'd like to use is already in use by another user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usr/infos": {
+      "get": {
+        "tags": [
+          "crate::api::usr"
+        ],
+        "operationId": "get_infos",
+        "responses": {
+          "200": {
+            "description": "Retreived user infos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetInfos"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not loggedin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usr/login": {
+      "post": {
+        "tags": [
+          "crate::api::usr"
+        ],
+        "operationId": "login_user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User was logedin successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Username/Password was invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/usr/logout": {
+      "post": {
+        "tags": [
+          "crate::api::usr"
+        ],
+        "operationId": "logout",
+        "responses": {
+          "200": {
+            "description": "User was logedout successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not loggedin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/version": {
       "get": {
         "tags": [
@@ -53,10 +257,40 @@
   },
   "components": {
     "schemas": {
+      "DefaultActionOutput": {
+        "type": "object",
+        "required": [
+          "success",
+          "message"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "GetInfos": {
+        "type": "object",
+        "required": [
+          "username",
+          "description"
+        ],
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
       "HomeResponse": {
         "type": "object",
         "required": [
-          "status",
+          "success",
           "title",
           "desc",
           "custom"
@@ -68,7 +302,7 @@
           "desc": {
             "type": "string"
           },
-          "status": {
+          "success": {
             "type": "boolean"
           },
           "title": {
