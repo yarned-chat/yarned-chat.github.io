@@ -30,6 +30,194 @@
         }
       }
     },
+    "/api/grp/create": {
+      "post": {
+        "tags": [
+          "crate::api::grp"
+        ],
+        "operationId": "create_group",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's group list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedGroup"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/grp/list": {
+      "get": {
+        "tags": [
+          "crate::api::grp"
+        ],
+        "operationId": "list_groups",
+        "responses": {
+          "200": {
+            "description": "User's group list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListGroups"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/msg/get": {
+      "get": {
+        "tags": [
+          "crate::api::msg"
+        ],
+        "operationId": "get_messages",
+        "responses": {
+          "200": {
+            "description": "Retreived all the messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecvdMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/msg/send": {
+      "get": {
+        "tags": [
+          "crate::api::msg"
+        ],
+        "operationId": "send_message",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "message",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/usr/create": {
       "post": {
         "tags": [
@@ -73,18 +261,8 @@
               }
             }
           },
-          "400": {
-            "description": "One of the input value was wrong (probably just a value way too big)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DefaultActionOutput"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "The username you'd like to use is already in use by another user",
+          "422": {
+            "description": "Some part of the input is invalid; More informations are given on the output",
             "content": {
               "application/json": {
                 "schema": {
@@ -124,7 +302,7 @@
             }
           },
           "401": {
-            "description": "User was not loggedin",
+            "description": "User was not logged in",
             "content": {
               "application/json": {
                 "schema": {
@@ -181,7 +359,7 @@
               }
             }
           },
-          "404": {
+          "401": {
             "description": "Username/Password was invalid",
             "content": {
               "application/json": {
@@ -212,7 +390,7 @@
         "operationId": "logout",
         "responses": {
           "200": {
-            "description": "User was logedout successfully",
+            "description": "User was loged out successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -222,7 +400,7 @@
             }
           },
           "401": {
-            "description": "User was not loggedin",
+            "description": "User was not logged in",
             "content": {
               "application/json": {
                 "schema": {
@@ -257,6 +435,21 @@
   },
   "components": {
     "schemas": {
+      "CreatedGroup": {
+        "type": "object",
+        "required": [
+          "success",
+          "group_id"
+        ],
+        "properties": {
+          "group_id": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
       "DefaultActionOutput": {
         "type": "object",
         "required": [
@@ -275,12 +468,16 @@
       "GetInfos": {
         "type": "object",
         "required": [
+          "success",
           "username",
           "description"
         ],
         "properties": {
           "description": {
             "type": "string"
+          },
+          "success": {
+            "type": "boolean"
           },
           "username": {
             "type": "string"
@@ -307,6 +504,56 @@
           },
           "title": {
             "type": "string"
+          }
+        }
+      },
+      "ListGroups": {
+        "type": "object",
+        "required": [
+          "success",
+          "groups"
+        ],
+        "properties": {
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": false,
+              "prefixItems": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RecvdMessages": {
+        "type": "object",
+        "required": [
+          "messages"
+        ],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": false,
+              "prefixItems": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            }
           }
         }
       },
