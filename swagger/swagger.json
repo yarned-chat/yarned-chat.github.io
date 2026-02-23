@@ -415,7 +415,7 @@
     "/api/version": {
       "get": {
         "tags": [
-          "crate::meta"
+          "crate::api::version"
         ],
         "operationId": "version",
         "responses": {
@@ -546,6 +546,9 @@
               "type": "array",
               "items": false,
               "prefixItems": [
+                {
+                  "type": "string"
+                },
                 {
                   "type": "string"
                 },
