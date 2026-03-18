@@ -80,6 +80,56 @@
         }
       }
     },
+    "/api/grp/join": {
+      "post": {
+        "tags": [
+          "crate::api::grp"
+        ],
+        "operationId": "join_group",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User's group list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JoinedGroup"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "One of many possible error happened on backend; This mainly arise from my poor Rust knowledge",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/grp/list": {
       "get": {
         "tags": [
@@ -503,6 +553,25 @@
             "type": "boolean"
           },
           "title": {
+            "type": "string"
+          }
+        }
+      },
+      "JoinedGroup": {
+        "type": "object",
+        "required": [
+          "status",
+          "message",
+          "url"
+        ],
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          },
+          "url": {
             "type": "string"
           }
         }
