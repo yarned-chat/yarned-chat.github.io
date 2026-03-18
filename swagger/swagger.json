@@ -489,7 +489,8 @@
         "type": "object",
         "required": [
           "success",
-          "group_id"
+          "group_id",
+          "url"
         ],
         "properties": {
           "group_id": {
@@ -497,6 +498,9 @@
           },
           "success": {
             "type": "boolean"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
@@ -562,10 +566,14 @@
         "required": [
           "status",
           "message",
+          "name",
           "url"
         ],
         "properties": {
           "message": {
+            "type": "string"
+          },
+          "name": {
             "type": "string"
           },
           "status": {
@@ -586,20 +594,30 @@
           "groups": {
             "type": "array",
             "items": {
-              "type": "array",
-              "items": false,
-              "prefixItems": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "string"
-                }
-              ]
+              "$ref": "#/components/schemas/ListedGroup"
             }
           },
           "success": {
             "type": "boolean"
+          }
+        }
+      },
+      "ListedGroup": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "url"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
           }
         }
       },
