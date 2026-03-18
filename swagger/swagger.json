@@ -88,7 +88,7 @@
         "operationId": "join_group",
         "parameters": [
           {
-            "name": "name",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
