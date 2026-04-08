@@ -210,6 +210,66 @@
         }
       }
     },
+    "/api/msg/history": {
+      "get": {
+        "tags": [
+          "crate::api::msg"
+        ],
+        "operationId": "get_history",
+        "parameters": [
+          {
+            "name": "group_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message history for a group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageHistory"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User was not logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "User is not a member of the group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DefaultActionOutput"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/msg/send": {
       "get": {
         "tags": [
@@ -538,6 +598,33 @@
           }
         }
       },
+      "HistoryMessage": {
+        "type": "object",
+        "required": [
+          "id",
+          "sender_id",
+          "username",
+          "content",
+          "created_at"
+        ],
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "sender_id": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        }
+      },
       "HomeResponse": {
         "type": "object",
         "required": [
@@ -618,6 +705,24 @@
           },
           "url": {
             "type": "string"
+          }
+        }
+      },
+      "MessageHistory": {
+        "type": "object",
+        "required": [
+          "success",
+          "messages"
+        ],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoryMessage"
+            }
+          },
+          "success": {
+            "type": "boolean"
           }
         }
       },
